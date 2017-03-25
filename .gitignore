@@ -1,17 +1,23 @@
-*.class
-*.log
-
-# sbt specific
-.cache
-.history
-.lib/
-dist/*
+*.sw[op]
 target/
-lib_managed/
-src_managed/
-project/boot/
-project/plugins/project/
-
-# Scala-IDE specific
-.scala_dependencies
-.worksheet
+sbt-launch.jar
+logs
+project/project
+project/target
+tmp
+.history
+dist
+.idea/
+/*.iml
+/out
+/.idea_modules
+/.classpath
+/.project
+/RUNNING_PID
+/.settings
+/.cache
+bin/
+*log*.gz
+app/rebel.xml
+#Android Gears
+Gears/
