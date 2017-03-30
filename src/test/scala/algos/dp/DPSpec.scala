@@ -46,11 +46,6 @@ class DynamicProgrammingSpec extends FlatSpec  {
     assert(longestIncreasingSeq(input) == List(10, 22, 33, 50, 60, 80))
   }
 
-  "Get most frequent word in a string" should "match expected result" in {
-    val input = "This is a test this may not be this is this"
-    assert(mostFrequentWords(input,1).head == "this")
-  }
-
   "Minimum number of jumps required" should "match expected result" in {
     val input = List(2,3,1,1,2,4,2,0,1,1)
     assert(minimumJump(input) == 4 )
@@ -70,7 +65,7 @@ class DynamicProgrammingSpec extends FlatSpec  {
 
   "Subset sum" should "match expected result" in {
     val input = List(3, 34, 4, 12, 5, 2)
-    assert(subSetSum(input,9,scala.collection.mutable.Map[(List[Int],Int),Boolean]()) == true )
+    assert(subSetSum(input,9,scala.collection.mutable.Map[(List[Int],Int) ,Boolean]()) == true )
   }
 
 }

@@ -179,11 +179,5 @@ in match {
      case x:: xs => getFromCache(xs,sum) || getFromCache(xs,sum-x)
      }
    }
-   
-
-  //Move this to string section
-  def mostFrequentWords(s: String, n: Int): List[String] =
-    s.split(" ").groupBy(w => w).mapValues(_.size).toList.sortBy(-_._2).map(_._1).take(n)
-
-
+  
 }
