@@ -92,7 +92,7 @@ object Graph {
 			  val (a,b) = r minBy(i => g(i))	
 			    unseen -= b
 			  seen += b
-			  println(s"seen=${seen},unseen=${unseen},a=${a}-${b}")
+			  //println(s"seen=${seen},unseen=${unseen},a=${a}-${b}")
 			  mst += a->b 
 			}
 			mst.toSet
