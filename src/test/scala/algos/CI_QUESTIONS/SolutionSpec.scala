@@ -234,4 +234,14 @@ class SolutionSpec extends FlatSpec  {
       assert(findAllPairs(i,7)==List((5,2),(6,1),(4,3)))
       assert(findAllPairs(i2,16)==List((6,10)))
     }
+
+    "20.1 adding two numbers without using +" should "return expected result" in {
+      assert(add_no_arithm(14,15) == 29)
+      assert(add_no_arithm(-14,15) == 1)
+    }
+
+    "20.2 random set creation" should "return expected result" in {
+      val i = Array(4,5,6,3,8,1,2)
+      assert(buildRandomSet(i,4).size == 4)
+    }
  }

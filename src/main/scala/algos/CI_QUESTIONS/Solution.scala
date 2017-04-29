@@ -464,10 +464,65 @@ output: ()()(), ()(()), (())(), ((()))
           t(c) = 1
           acc})
     }
-}
 
+  /*
+    20.1 Add without using + operator 
+  */  
+  def add_no_arithm(a:Int,b:Int):Int = if(b == 0) a else {
+    val sum = a ^ b //Add without carry
+    val carry = (a & b) << 1 //Just carry with left shift
+    add_no_arithm(sum,carry)
+  }
 
+  /* 20.3 Write a method to randomly generate a set of m integers 
+  from an array of size n. Each element must have equal probability of being chosen */
+  def buildRandomSet[T](in:Array[T],m:Int):Set[T] = {
+      def getRan(start:Int,end:Int):Int = start + scala.util.Random.nextInt(end - start)
+      
+      def loop(p:Int,start:Int,end:Int,acc:Set[T]):Set[T] = if(p == 0) acc else {
+        val cr = getRan(start,end)
+        val toSet = in(cr)
+        in(cr) = in(start)
+        loop(p-1,start+1,end,acc + toSet)
+      }
+      loop(m,0,in.size-1,Set[T]())
+  }
 
+  /* 20.5 You have a large text file containing words.
+   Given any two words, find the shortest distance
+    (in terms of number of words) between them in the file. 
+    Can you make the searching operation in O(1) time? What about
+     the space complexity for your solution?
+
+  */ 
+  
+ /* def minWordDistance(words:List[String],s1:String,s2:String):Option[Int] = {
+    var counter:Int = 0
+   val myHash = words.foldLeft(scala.collection.mutable.Map[String,List[Int]]())((acc,line) => {
+    line.split(" ").reduceLeft(acc)((accword => {
+         counter = counter + 1
+        if(acc.contains(word)) {
+          val t:List[Int] = acc(word)
+          //acc + (word -> counter::t)
+          acc + (word -> List(counter))
+           }
+          else 
+           acc + (word -> List(counter))
+      })
+    })
+
+  
+   def findMinDistance(l1:List[Int],l2:List[Int],acc:(Int,Int)): (Int,Int) = {
+      for{
+        i <- l1
+        j <- l2
+        if((i-j).abs < (acc._1 - acc._2).abs)
+      } yield(i,j)
+    }
+
+      findMinDistance(myHash(s1),myHash(s2),(0,0))
+   } */
+ }
 
 
 /*
