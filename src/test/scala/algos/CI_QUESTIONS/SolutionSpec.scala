@@ -135,6 +135,23 @@ class SolutionSpec extends FlatSpec  {
     assert(lca(in,Node(None,3,None),Node(None,5,None)) == in)
   }
 
+  "5.1 ability to set specific bit on a given number" should "return expected results" in {
+      val M =21 ; val N = 1024; val i = 2;val j = 6
+      assert(updateBits(N,M,i,j) == 1108)
+   }
+
+   "5.3 get next and previous int with same number of 1s" should "return expected results" in {
+      val obj = new BitWiseNext()
+      assert(obj.getNext_NP(7) == 11)
+      assert(obj.getNext_NP(28) == 35)
+   }
+
+   "5.5 find number of bit toggle required to convert a to b" should "return expected results" in {
+      val a =31 ; val b = 14; 
+      assert(bitSwapRequired(a,b) == 2)
+      assert(bitSwapRequired(2,5) == 3)
+   }
+
   "8.1 nth Fibonacci number" should "return expected result" in {
     assert(fibonacci(13) == 144)
   }
@@ -243,5 +260,10 @@ class SolutionSpec extends FlatSpec  {
     "20.2 random set creation" should "return expected result" in {
       val i = Array(4,5,6,3,8,1,2)
       assert(buildRandomSet(i,4).size == 4)
+    }
+
+    "20.10 transforming word" should "return expected result" in {
+      val dict= List("LIMP","LAMP", "LIME" ,"LIKE", "ABCD", "NEST", "BEST","DAMP")
+      assert(transformWord("damp", "Like",dict) == List("DAMP", "LAMP" , "LIMP" ,"LIME", "LIKE"))
     }
  }

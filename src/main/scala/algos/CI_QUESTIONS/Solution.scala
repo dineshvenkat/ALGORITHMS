@@ -522,6 +522,174 @@ output: ()()(), ()(()), (())(), ((()))
 
       findMinDistance(myHash(s1),myHash(s2),(0,0))
    } */
+
+   /* 20.10 Given two words of equal length that are in a dictionary, 
+    write a method to transform one word into another word by changing 
+    only one letter at a time. The new word you get in each step must be
+     in the dictionary.
+
+    EXAMPLE:
+    Input: DAMP, LIKE
+    Output: DAMP -> LAMP -> LIMP -> LIME -> LIKE
+   */ 
+
+   def transformWord(s:String,d:String,dict:List[String]):List[String] = {
+
+      import scala.collection.mutable.Map
+
+      def backTrack(dp:Map[String,String],root:String):List[String] = {
+
+        def loop(acc:List[String],curr:String):List[String] = if(dp(curr) == "0")
+          curr::acc
+         else {
+          println(dp(curr))
+          loop(curr::acc,dp(curr))
+        }
+
+        loop(List[String](),root)   
+      }
+
+       import scala.collection.immutable.Queue
+      def loop(q:Queue[String],v:Set[String],dp:Map[String,String]):List[String] = {
+        if(q.isEmpty) Nil 
+        else {
+           //Pop from Queue 
+           val (currNode,pendQ) = q.dequeue 
+           if(currNode == d.toUpperCase) { //simply backtrack 
+              //println("Calling backtrack")
+              //println(dp,currNode)
+             backTrack(dp,currNode)
+           } else {
+            val nbrs = getAllOneEditDist(currNode)          
+            val validNbrs = for { nbr <- nbrs
+              if(nbr != currNode)
+              if(dict.contains(nbr) && !(v.contains(nbr)))      
+              _ = if(true)
+                    dp(nbr) = currNode
+            } yield nbr.toUpperCase
+
+            /* println("**********************")
+            println(currNode)
+            println(nbrs)
+            println("--------")
+            println(v)
+            */
+            loop(pendQ.enqueue(validNbrs),v++ validNbrs,dp)
+          }
+            
+        }
+      }
+
+      loop(Queue[String](s.toUpperCase),Set[String](s.toUpperCase),Map[String,String](s.toUpperCase -> "0"))
+    }
+   
+   
+   def getAllOneEditDist(word:String) = for {
+      pos <- 0 to word.size 
+      a <- 'A' to 'Z'
+      t1 = word.splitAt(pos)
+      if(!t1._1.isEmpty) 
+   } yield t1._1.init + a.toString + t1._2
+
+
+   /* 
+    5.1 You are given two 32-bit numbers, N and M, and two bit positions,
+     i and j. Write a method to set all bits between i and j in N equal
+      to M (e.g., M becomes a substring of N located at i and starting at j).
+   */
+   def updateBits(n:Int,m:Int,i:Int,j:Int):Int = {
+    //First create the mask to clean bits i to j in n 
+      val max = ~0 // All 1's 
+      
+      //Make everything 0, right of j 
+         val left  = max-((1 << j) -1)
+
+      //Make everything 1, right of i
+         val right = (1<<i - 1)   
+
+       val mask = left | right
+
+       //Apply the mask on N 
+       val t1 = n & mask 
+
+       //prepare m 
+       val t2 = m << i
+
+       t1 | t2 //Final result   
+   }
+
+   /*
+    5.5 Write a function to determine the number of bits
+     required to convert integer A to integer B.
+   */
+
+   def bitSwapRequired(a:Int,b:Int):Int = {
+    def loop(in:Int,count:Int):Int = if(in == 0) count else {
+      if((in & 1) == 1) loop(in >> 1, count +1 )
+      else loop(in >> 1, count)
+    }
+    loop(a ^ b,0 )
+   }
+
+ }
+
+
+/*
+    5.3 Given an integer, print the next smallest and next largest
+     number that have the same number of 1 bits in their binary representation.
+
+    Learning = Using inverse  
+   */
+
+ class BitWiseNext {
+    
+    private def getNextBit(in:Int,index:Int) = (in & ( 1 << index)) > 0
+
+    private def setNextBit(in:Int,index:Int,v:Boolean):Int = if(v) (in | (1 << index))
+      else {
+        val mask = ~ (1 << index)
+        in & mask  
+      }
+
+    def getNext_NP(n:Int):Int = {
+      
+      //Scan from right to left to find 1 before a 0
+      var index = 0
+      while(!getNextBit(n,index)){
+        index = index + 1
+      }
+
+      //Count number of 1's before a 0
+      var one_count = 0
+      while(getNextBit(n,index)){
+        index = index + 1
+        one_count = one_count + 1
+      }      
+      
+      //Set the 0 to 1 
+      val n1 = setNextBit(n,index,true)  
+
+      index = index - 1
+
+      //set 1 to 0
+      val n2 = setNextBit(n1,index,false)
+      
+      one_count = one_count -1
+
+      //To shift all 1's to end first set all existing 1's to 0 
+      // and set them at LSB 
+      //Set to 0 
+      //println("********************")
+      //println(s"index=${index},count=${one_count}")
+      val n3 = (index-1 to (index - one_count) by -1).foldLeft(n2)((acc,c) => {
+        //println(acc)
+        setNextBit(acc,c,false)})
+
+
+      //Set the LSB with number of 1's
+      val n4 = (0 to one_count-1).foldLeft(n3)((acc,c) => setNextBit(acc,c,true))
+      n4
+    }  
  }
 
 
